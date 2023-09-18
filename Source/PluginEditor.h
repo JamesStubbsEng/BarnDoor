@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "Components/PolarPlot.h"
 
 //==============================================================================
 /**
@@ -30,6 +31,8 @@ private:
     BarnDoorAudioProcessor& audioProcessor;
 
     AudioProcessorValueTreeState& valueTreeState;
+
+    PolarPlot polarPlot;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BarnDoorAudioProcessorEditor)
 };

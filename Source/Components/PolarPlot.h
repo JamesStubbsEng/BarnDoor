@@ -28,9 +28,10 @@ public:
 private:
     OwnedArray<PolarPoint> polarPoints;
     const int POINT_DIAMETER = 6;
-    const int MARGIN = 20;
+    int margin = 20;
     const float AXIS_THICKNESS = 2;
     Rectangle<int> plottingBounds;
+    AffineTransform axisRotationTransform;
 
     void timerCallback() override;
 

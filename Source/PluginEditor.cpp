@@ -29,5 +29,5 @@ void BarnDoorAudioProcessorEditor::paint (juce::Graphics& g)
 
 void BarnDoorAudioProcessorEditor::resized()
 {
-    polarPlot.centreWithSize(400, 220);
+    polarPlot.centreWithSize(400, 400);
 }

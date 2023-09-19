@@ -28,28 +28,48 @@ void PolarPlot::paint (juce::Graphics& g)
     g.setColour(Colours::darkgrey);
 
     //semi-circles
-    const float innerArcRadius = getWidth() / 2 - MARGIN - AXIS_THICKNESS / 2;
-    const float outerArcRadius = getWidth() / 2 - MARGIN + AXIS_THICKNESS / 2;
-    Path semiCircle;
-    semiCircle.addCentredArc(getWidth() / 2, getHeight() - MARGIN, outerArcRadius, outerArcRadius, 0, 1.5 * MathConstants<float>::pi, 2.5 * MathConstants<float>::pi, true);
-    g.fillPath(semiCircle);
+    //const float innerArcRadius = getWidth() / 2 - margin - AXIS_THICKNESS / 2;
+    //const float outerArcRadius = getWidth() / 2 - margin + AXIS_THICKNESS / 2;
+    //Path semiCircle;
+    //semiCircle.addCentredArc(getWidth() / 2, getHeight() - margin, outerArcRadius, outerArcRadius, 0, 1.5 * MathConstants<float>::pi, 2.5 * MathConstants<float>::pi, true);
+    //g.fillPath(semiCircle);
 
-    Path innerSemiCircle;
-    innerSemiCircle.addCentredArc(getWidth() / 2, getHeight() - MARGIN, innerArcRadius, innerArcRadius, 0, 1.5 * MathConstants<float>::pi, 2.5 * MathConstants<float>::pi, true);
-    g.setColour(Colours::black);
-    g.fillPath(innerSemiCircle);
+    //Path innerSemiCircle;
+    //innerSemiCircle.addCentredArc(getWidth() / 2, getHeight() - margin, innerArcRadius, innerArcRadius, 0, 1.5 * MathConstants<float>::pi, 2.5 * MathConstants<float>::pi, true);
+    //g.setColour(Colours::black);
+    //g.fillPath(innerSemiCircle);
 
     //paint axis
     g.setColour(Colours::darkgrey);
+
     //x-axis
-    g.fillRoundedRectangle(0, getHeight() - MARGIN - AXIS_THICKNESS/2, getWidth(), AXIS_THICKNESS, AXIS_THICKNESS /2 );
+    Path p;
+    p.addRoundedRectangle(0, getHeight()  /2 - AXIS_THICKNESS / 2, getWidth(), AXIS_THICKNESS, AXIS_THICKNESS / 2);
+    p.applyTransform(axisRotationTransform);
+    g.fillPath(p);
+
     //y-axis
-    g.fillRoundedRectangle(getWidth() / 2 - AXIS_THICKNESS / 2, 0, AXIS_THICKNESS, getHeight(), AXIS_THICKNESS / 2);
+    p.clear();
+    p.addRoundedRectangle(getWidth() / 2 - AXIS_THICKNESS / 2, 0, AXIS_THICKNESS, getHeight(), AXIS_THICKNESS / 2);
+    p.applyTransform(axisRotationTransform);
+    g.fillPath(p);
+
+    //axis limit notches
+
 }
 
 void PolarPlot::resized()
 {
+    //PolarPlot must be a square!
+    jassert(getWidth() == getHeight());
 
+    if (getWidth() != getHeight())
+        setSize(getWidth(), getWidth());
+
+    //make the margins the diamond within a square
+    margin = (getWidth() * (2 - MathConstants<float>::sqrt2))/4;
+
+    axisRotationTransform = AffineTransform::rotation(0.25 * MathConstants<float>::pi, getWidth() / 2, getHeight() / 2);
 }
 
 void PolarPlot::timerCallback()
@@ -59,15 +79,14 @@ void PolarPlot::timerCallback()
             polarPoints.remove(i);
 
     //point withing margin
+    float x = jmap(Random::getSystemRandom().nextFloat(), (float)margin, (float)getWidth() - margin);
+    float y = jmap(Random::getSystemRandom().nextFloat(), (float)margin, (float)getHeight() - margin);
 
-    auto x = jmap(Random::getSystemRandom().nextFloat(), (float)MARGIN, (float)getWidth() - MARGIN);
-    auto y = jmap(Random::getSystemRandom().nextFloat(), (float)MARGIN, (float)getHeight() - MARGIN);
-
+    axisRotationTransform.transformPoint(x, y);
 
     //test code: generate one more PolarPoint object
     addAndMakeVisible(polarPoints.add(new PolarPoint(
         x,
         y,
-        POINT_DIAMETER)));
-        
+        POINT_DIAMETER)));       
 }

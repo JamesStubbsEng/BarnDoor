@@ -30,6 +30,7 @@ private:
     const int POINT_DIAMETER = 6;
     int margin = 20;
     const float AXIS_THICKNESS = 2;
+    const int NOTCH_LENGTH = 10;
     Rectangle<int> plottingBounds;
     AffineTransform axisRotationTransform;
 

@@ -25,20 +25,6 @@ void PolarPlot::paint (juce::Graphics& g)
 {
     g.fillAll (Colours::black);   // clear the background
 
-    g.setColour(Colours::darkgrey);
-
-    //semi-circles
-    //const float innerArcRadius = getWidth() / 2 - margin - AXIS_THICKNESS / 2;
-    //const float outerArcRadius = getWidth() / 2 - margin + AXIS_THICKNESS / 2;
-    //Path semiCircle;
-    //semiCircle.addCentredArc(getWidth() / 2, getHeight() - margin, outerArcRadius, outerArcRadius, 0, 1.5 * MathConstants<float>::pi, 2.5 * MathConstants<float>::pi, true);
-    //g.fillPath(semiCircle);
-
-    //Path innerSemiCircle;
-    //innerSemiCircle.addCentredArc(getWidth() / 2, getHeight() - margin, innerArcRadius, innerArcRadius, 0, 1.5 * MathConstants<float>::pi, 2.5 * MathConstants<float>::pi, true);
-    //g.setColour(Colours::black);
-    //g.fillPath(innerSemiCircle);
-
     //paint axis
     g.setColour(Colours::darkgrey);
 
@@ -55,7 +41,25 @@ void PolarPlot::paint (juce::Graphics& g)
     g.fillPath(p);
 
     //axis limit notches
+    p.clear();
+    p.addRoundedRectangle(margin - AXIS_THICKNESS / 2, getHeight()/2 - NOTCH_LENGTH/2, AXIS_THICKNESS, NOTCH_LENGTH, AXIS_THICKNESS / 2);
+    p.applyTransform(axisRotationTransform);
+    g.fillPath(p);
 
+    p.clear();
+    p.addRoundedRectangle(getWidth() - margin - AXIS_THICKNESS / 2, getHeight() / 2 - NOTCH_LENGTH / 2, AXIS_THICKNESS, NOTCH_LENGTH, AXIS_THICKNESS / 2);
+    p.applyTransform(axisRotationTransform);
+    g.fillPath(p);
+
+    p.clear();
+    p.addRoundedRectangle(getWidth()/2 - NOTCH_LENGTH / 2 , margin - AXIS_THICKNESS / 2, NOTCH_LENGTH, AXIS_THICKNESS, AXIS_THICKNESS / 2);
+    p.applyTransform(axisRotationTransform);
+    g.fillPath(p);
+
+    p.clear();
+    p.addRoundedRectangle(getWidth() / 2 - NOTCH_LENGTH / 2, getHeight() - margin - AXIS_THICKNESS / 2, NOTCH_LENGTH, AXIS_THICKNESS, AXIS_THICKNESS / 2);
+    p.applyTransform(axisRotationTransform);
+    g.fillPath(p);
 }
 
 void PolarPlot::resized()

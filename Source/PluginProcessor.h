@@ -56,8 +56,14 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    bool canGetLeftAndRightChannelSamples();
+    void getLeftAndRightChannelSamples(float& l, float& r);
+
 private:
     //==============================================================================
     AudioProcessorValueTreeState parameters;
+    std::atomic<float> leftChannelSample{ 0.f };
+    std::atomic<float> rightChannelSample{ 0.f };
+    std::atomic<bool> isPlaying{ true };
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BarnDoorAudioProcessor)
 };

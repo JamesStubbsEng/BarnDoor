@@ -11,7 +11,7 @@
 
 //==============================================================================
 BarnDoorAudioProcessorEditor::BarnDoorAudioProcessorEditor (BarnDoorAudioProcessor& p, AudioProcessorValueTreeState& vts)
-    : AudioProcessorEditor (&p), audioProcessor (p), valueTreeState(vts)
+    : AudioProcessorEditor (&p), audioProcessor (p), valueTreeState(vts), polarPlot(p)
 {
     addAndMakeVisible(polarPlot);
     setSize(600, 450);

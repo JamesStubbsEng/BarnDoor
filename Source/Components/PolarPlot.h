@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "PolarPoint.h"
+#include "../Source/PluginProcessor.h"
 
 //==============================================================================
 /*
@@ -19,7 +20,7 @@
 class PolarPlot  : public juce::Component, private juce::Timer
 {
 public:
-    PolarPlot();
+    PolarPlot(BarnDoorAudioProcessor& audioProcessor);
     ~PolarPlot() override;
 
     void paint (juce::Graphics&) override;
@@ -33,6 +34,7 @@ private:
     const int NOTCH_LENGTH = 10;
     Rectangle<int> plottingBounds;
     AffineTransform axisRotationTransform;
+    BarnDoorAudioProcessor& audioProcessor;
 
     void timerCallback() override;
 

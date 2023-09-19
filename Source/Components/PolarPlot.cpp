@@ -12,7 +12,7 @@
 #include "PolarPlot.h"
 
 //==============================================================================
-PolarPlot::PolarPlot()
+PolarPlot::PolarPlot(BarnDoorAudioProcessor& audioProcessor) : audioProcessor(audioProcessor)
 {
     startTimerHz(60);
 }
@@ -82,15 +82,28 @@ void PolarPlot::timerCallback()
         if (!polarPoints.getUnchecked(i)->decrementAlpha())
             polarPoints.remove(i);
 
-    //point withing margin
-    float x = jmap(Random::getSystemRandom().nextFloat(), (float)margin, (float)getWidth() - margin);
-    float y = jmap(Random::getSystemRandom().nextFloat(), (float)margin, (float)getHeight() - margin);
+    ////test code: generate one more PolarPoint object
+    ////point withing margin
+    //float x = jmap(Random::getSystemRandom().nextFloat(), (float)margin, (float)getWidth() - margin);
+    //float y = jmap(Random::getSystemRandom().nextFloat(), (float)margin, (float)getHeight() - margin);
+    ////test code end
+
+    //get left and right channel values and plot within margin
+
+    //if the playhead is paused, don't draw anything new
+    if (!audioProcessor.canGetLeftAndRightChannelSamples())
+        return;
+
+    float x = 0.f;
+    float y = 0.f;
+    audioProcessor.getLeftAndRightChannelSamples(x, y);
+    x = jmap((x + 1.0f)/2, (float)margin, (float)getWidth() - margin);
+    y = jmap((y + 1.0f) / 2, (float)margin, (float)getHeight() - margin);
 
     axisRotationTransform.transformPoint(x, y);
 
-    //test code: generate one more PolarPoint object
     addAndMakeVisible(polarPoints.add(new PolarPoint(
         x,
         y,
-        POINT_DIAMETER)));       
+        POINT_DIAMETER)));
 }

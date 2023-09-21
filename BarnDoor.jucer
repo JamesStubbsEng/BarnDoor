@@ -10,6 +10,10 @@
       <FILE id="OS9P3I" name="PolarPoint.cpp" compile="1" resource="0" file="Source/Components/PolarPoint.cpp"/>
       <FILE id="vXtfkW" name="PolarPoint.h" compile="0" resource="0" file="Source/Components/PolarPoint.h"/>
     </GROUP>
+    <GROUP id="{11F44576-C9DB-DCEE-9D23-03B99E64266F}" name="dsp">
+      <FILE id="fexsDf" name="Widen.h" compile="0" resource="0" file="Source/dsp/Widen.h"/>
+      <FILE id="JZuoG2" name="Widen.cpp" compile="1" resource="0" file="Source/dsp/Widen.cpp"/>
+    </GROUP>
     <GROUP id="{5EE6E821-2D5D-5FB4-3017-81C17B42AECD}" name="Source">
       <FILE id="anLBRY" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>

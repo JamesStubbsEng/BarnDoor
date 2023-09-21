@@ -9,6 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "dsp/Widen.h"
 
 //==============================================================================
 /**
@@ -62,8 +63,15 @@ public:
 private:
     //==============================================================================
     AudioProcessorValueTreeState parameters;
+
+    std::atomic<float>* wideningFactor = nullptr;
+    std::atomic<float>* wideningGain = nullptr;
+
     std::atomic<float> leftChannelSample{ 0.f };
     std::atomic<float> rightChannelSample{ 0.f };
     std::atomic<bool> isPlaying{ true };
+
+    Widen widen;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BarnDoorAudioProcessor)
 };

@@ -21,10 +21,13 @@ BarnDoorAudioProcessor::BarnDoorAudioProcessor()
                      #endif
                        ), parameters(*this, nullptr, Identifier("barndoor"),
                            {
-                               //TODO: instantiate AudioParameterFloat parameters
+                               std::make_unique<AudioParameterFloat>("wideningFactor", "Widening Factor", NormalisableRange<float>(0.0f, 2.0f,0.01f), 1.0f),
+                               std::make_unique<AudioParameterFloat>("wideningGain", "Widening Gain", NormalisableRange<float>(-30.0f, 30.0f,0.1f), 0.0f),
                            })
 #endif
 {
+    wideningFactor = parameters.getRawParameterValue("wideningFactor");
+    wideningGain = parameters.getRawParameterValue("wideningGain");
 }
 
 BarnDoorAudioProcessor::~BarnDoorAudioProcessor()
@@ -96,8 +99,7 @@ void BarnDoorAudioProcessor::changeProgramName (int index, const juce::String& n
 //==============================================================================
 void BarnDoorAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    widen.prepare(sampleRate);
 }
 
 void BarnDoorAudioProcessor::releaseResources()
@@ -137,6 +139,8 @@ void BarnDoorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     juce::ScopedNoDenormals noDenormals;
     const auto numSamples = buffer.getNumSamples();
 
+    //TODO: handle cases where there is one input channel and 2 output channels (like in cubase)
+
     if (numSamples == 0)
         return;
     auto playhead = getPlayHead();
@@ -147,8 +151,14 @@ void BarnDoorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
         isPlaying.store(currentPositionInfo.isPlaying);
     }
 
-    //store to atomics that the PolarPlot will load
-    //just capture first sample of buffer for now
+    // widening
+    widen.setWideningFactor(wideningFactor->load());
+    widen.setWideningGain(wideningGain->load());
+    widen.processBlock(buffer);
+
+    //store to atomics that the PolarPlot will load.
+    //just capture first sample of buffer for now.
+    //TODO: store a sample every number of buffer samples instead
     leftChannelSample.store(buffer.getSample(0, 0));
     if(buffer.getNumChannels() == 1)
         rightChannelSample.store(buffer.getSample(0, 0));

@@ -34,5 +34,16 @@ private:
 
     PolarPlot polarPlot;
 
+    typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
+
+    Slider wideningFactorSlider;
+    Slider wideningGainSlider;
+
+    Label wideningFactorLabel;
+    Label wideningGainLabel;
+
+    std::unique_ptr<SliderAttachment> wideningFactorSliderAttachment;
+    std::unique_ptr<SliderAttachment> wideningGainSliderAttachment;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BarnDoorAudioProcessorEditor)
 };

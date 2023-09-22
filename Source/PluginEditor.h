@@ -37,13 +37,16 @@ private:
     typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 
     Slider wideningFactorSlider;
-    Slider wideningGainSlider;
-
     Label wideningFactorLabel;
-    Label wideningGainLabel;
-
     std::unique_ptr<SliderAttachment> wideningFactorSliderAttachment;
+    
+    Slider wideningGainSlider;
+    Label wideningGainLabel;
     std::unique_ptr<SliderAttachment> wideningGainSliderAttachment;
+
+    Slider haasDelaySlider;
+    Label haasDelayLabel;
+    std::unique_ptr<SliderAttachment> haasDelaySliderAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BarnDoorAudioProcessorEditor)
 };

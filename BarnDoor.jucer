@@ -11,6 +11,8 @@
       <FILE id="vXtfkW" name="PolarPoint.h" compile="0" resource="0" file="Source/Components/PolarPoint.h"/>
     </GROUP>
     <GROUP id="{11F44576-C9DB-DCEE-9D23-03B99E64266F}" name="dsp">
+      <FILE id="x8fmp4" name="Haas.cpp" compile="1" resource="0" file="Source/dsp/Haas.cpp"/>
+      <FILE id="JJPYd3" name="Haas.h" compile="0" resource="0" file="Source/dsp/Haas.h"/>
       <FILE id="fexsDf" name="Widen.h" compile="0" resource="0" file="Source/dsp/Widen.h"/>
       <FILE id="JZuoG2" name="Widen.cpp" compile="1" resource="0" file="Source/dsp/Widen.cpp"/>
     </GROUP>

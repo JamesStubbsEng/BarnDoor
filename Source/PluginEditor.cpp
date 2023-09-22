@@ -33,6 +33,16 @@ BarnDoorAudioProcessorEditor::BarnDoorAudioProcessorEditor (BarnDoorAudioProcess
     addAndMakeVisible(wideningGainSlider);
     wideningGainSliderAttachment.reset(new SliderAttachment(valueTreeState, "wideningGain", wideningGainSlider));
 
+
+    haasDelaySlider.setSliderStyle(juce::Slider::Rotary);
+    haasDelaySlider.setScrollWheelEnabled(false);
+    haasDelaySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
+    haasDelaySlider.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
+    haasDelayLabel.setText("Haas Delay", NotificationType::dontSendNotification);
+    haasDelayLabel.attachToComponent(&haasDelaySlider, false);
+    addAndMakeVisible(haasDelaySlider);
+    haasDelaySliderAttachment.reset(new SliderAttachment(valueTreeState, "haasDelayTime", haasDelaySlider));
+
     setSize(700, 520);
 }
 
@@ -50,16 +60,19 @@ void BarnDoorAudioProcessorEditor::resized()
 {
     auto availableArea = getBounds().reduced(20);
 
-    auto polarPlotWidthAndHeight = availableArea.getHeight() / 2;
+    auto polarPlotWidthAndHeight = availableArea.getHeight() / 3;
     auto polarPlotArea = availableArea.removeFromTop(polarPlotWidthAndHeight);
     polarPlotArea.setWidth(polarPlotWidthAndHeight);
     polarPlotArea.translate((availableArea.getWidth() - polarPlotWidthAndHeight) / 2, 0);
     polarPlot.setBounds(polarPlotArea);
     
     auto sliderWidth = availableArea.getWidth() /2;
-    auto sliderHeight = availableArea.getHeight();
+    auto sliderHeight = availableArea.getHeight() / 2;
 
     auto firstRow = availableArea.removeFromTop(sliderHeight);
-    wideningFactorSlider.setBounds(firstRow.removeFromLeft(sliderWidth).reduced(30));
-    wideningGainSlider.setBounds(firstRow.removeFromLeft(sliderWidth).reduced(30));
+    haasDelaySlider.setBounds(firstRow.removeFromLeft(sliderWidth).reduced(30));
+
+    auto secondRow = availableArea.removeFromTop(sliderHeight);
+    wideningFactorSlider.setBounds(secondRow.removeFromLeft(sliderWidth).reduced(30));
+    wideningGainSlider.setBounds(secondRow.removeFromLeft(sliderWidth).reduced(30));
 }

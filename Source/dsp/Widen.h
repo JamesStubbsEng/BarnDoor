@@ -17,7 +17,7 @@ public:
     Widen() = default;
     void setWideningFactor(float val);
     void setWideningGain(float valDB);
-    void prepare(float sampleRate) noexcept;
+    void prepare(float sampleRate, float wideningFactor, float wideningGainDb) noexcept;
     void processBlock(juce::AudioBuffer<float>& buffer) noexcept;
 private:
     juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> wideningFactorSmoothed;

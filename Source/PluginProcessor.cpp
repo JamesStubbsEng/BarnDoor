@@ -101,8 +101,8 @@ void BarnDoorAudioProcessor::changeProgramName (int index, const juce::String& n
 //==============================================================================
 void BarnDoorAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    widen.prepare(sampleRate);
-    haas.prepare(sampleRate, samplesPerBlock, getNumOutputChannels());
+    widen.prepare(sampleRate, wideningFactor->load(), wideningDrive->load());
+    haas.prepare(sampleRate, samplesPerBlock, getNumOutputChannels(), haasDelayTime->load());
 }
 
 void BarnDoorAudioProcessor::releaseResources()

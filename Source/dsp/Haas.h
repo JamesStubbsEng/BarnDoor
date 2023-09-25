@@ -16,7 +16,7 @@ class Haas {
 public:
     Haas() = default;
     void setDelayTime(float val);
-    void prepare(float sampleRate, int32 maximumBlockSize, int32 numberOfChannels) noexcept;
+    void prepare(float sampleRate, int32 maximumBlockSize, int32 numberOfChannels, float delayTimeMs) noexcept;
     void processBlock(juce::AudioBuffer<float>& buffer) noexcept;
 private:
     juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> delayTimeSmoothedMs;

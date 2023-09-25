@@ -20,11 +20,11 @@ void Widen::setWideningGain(float valDB)
     wideningGainSmoothed.setTargetValue(valDB);
 }
 
-void Widen::prepare(float sampleRate) noexcept
+void Widen::prepare(float sampleRate, float wideningFactor, float wideningGainDb) noexcept
 {
-    wideningFactorSmoothed.setCurrentAndTargetValue(1.0f);
+    wideningFactorSmoothed.setCurrentAndTargetValue(wideningFactor);
     wideningFactorSmoothed.reset(sampleRate, 0.05);
-    wideningGainSmoothed.setCurrentAndTargetValue(0.0f);
+    wideningGainSmoothed.setCurrentAndTargetValue(wideningGainDb);
     wideningGainSmoothed.reset(sampleRate, 0.05);
 }
 

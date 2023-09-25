@@ -15,9 +15,9 @@ void Haas::setDelayTime(float val)
     delayTimeSmoothedMs.setTargetValue(val);
 }
 
-void Haas::prepare(float sampleRate, int32 maximumBlockSize, int32 numberOfChannels) noexcept
+void Haas::prepare(float sampleRate, int32 maximumBlockSize, int32 numberOfChannels, float delayTimeMs) noexcept
 {
-    delayTimeSmoothedMs.setCurrentAndTargetValue(0.0f);
+    delayTimeSmoothedMs.setCurrentAndTargetValue(delayTimeMs);
     delayTimeSmoothedMs.reset(sampleRate, 0.05);
 
     juce::dsp::ProcessSpec spec;

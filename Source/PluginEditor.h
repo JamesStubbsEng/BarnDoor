@@ -40,9 +40,9 @@ private:
     Label wideningFactorLabel;
     std::unique_ptr<SliderAttachment> wideningFactorSliderAttachment;
     
-    Slider wideningGainSlider;
-    Label wideningGainLabel;
-    std::unique_ptr<SliderAttachment> wideningGainSliderAttachment;
+    Slider wideningDriveSlider;
+    Label wideningDriveLabel;
+    std::unique_ptr<SliderAttachment> wideningDriveSliderAttachment;
 
     Slider haasDelaySlider;
     Label haasDelayLabel;

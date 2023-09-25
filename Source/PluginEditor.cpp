@@ -24,14 +24,14 @@ BarnDoorAudioProcessorEditor::BarnDoorAudioProcessorEditor (BarnDoorAudioProcess
     addAndMakeVisible(wideningFactorSlider);
     wideningFactorSliderAttachment.reset(new SliderAttachment(valueTreeState, "wideningFactor", wideningFactorSlider));
 
-    wideningGainSlider.setSliderStyle(juce::Slider::Rotary);
-    wideningGainSlider.setScrollWheelEnabled(false);
-    wideningGainSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
-    wideningGainSlider.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
-    wideningGainLabel.setText("Widening Gain", NotificationType::dontSendNotification);
-    wideningGainLabel.attachToComponent(&wideningGainSlider, false);
-    addAndMakeVisible(wideningGainSlider);
-    wideningGainSliderAttachment.reset(new SliderAttachment(valueTreeState, "wideningGain", wideningGainSlider));
+    wideningDriveSlider.setSliderStyle(juce::Slider::Rotary);
+    wideningDriveSlider.setScrollWheelEnabled(false);
+    wideningDriveSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
+    wideningDriveSlider.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
+    wideningDriveLabel.setText("Widening Drive", NotificationType::dontSendNotification);
+    wideningDriveLabel.attachToComponent(&wideningDriveSlider, false);
+    addAndMakeVisible(wideningDriveSlider);
+    wideningDriveSliderAttachment.reset(new SliderAttachment(valueTreeState, "wideningDrive", wideningDriveSlider));
 
 
     haasDelaySlider.setSliderStyle(juce::Slider::Rotary);
@@ -73,6 +73,6 @@ void BarnDoorAudioProcessorEditor::resized()
     haasDelaySlider.setBounds(firstRow.removeFromLeft(sliderWidth).reduced(30));
 
     auto secondRow = availableArea.removeFromTop(sliderHeight);
-    wideningFactorSlider.setBounds(secondRow.removeFromLeft(sliderWidth).reduced(30));
-    wideningGainSlider.setBounds(secondRow.removeFromLeft(sliderWidth).reduced(30));
+    wideningDriveSlider.setBounds(secondRow.removeFromLeft(sliderWidth).reduced(30));
+    wideningFactorSlider.setBounds(secondRow.removeFromLeft(sliderWidth).reduced(30));  
 }

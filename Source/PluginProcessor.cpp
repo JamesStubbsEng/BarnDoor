@@ -22,13 +22,13 @@ BarnDoorAudioProcessor::BarnDoorAudioProcessor()
                        ), parameters(*this, nullptr, Identifier("barndoor"),
                            {
                                std::make_unique<AudioParameterFloat>("wideningFactor", "Widening Factor", NormalisableRange<float>(0.0f, 2.0f,0.01f), 1.0f),
-                               std::make_unique<AudioParameterFloat>("wideningGain", "Widening Gain", NormalisableRange<float>(-30.0f, 30.0f,0.1f), 0.0f),
+                               std::make_unique<AudioParameterFloat>("wideningDrive", "Widening Drive", NormalisableRange<float>(0.0f, 30.0f,0.1f), 0.0f),
                                std::make_unique<AudioParameterFloat>("haasDelayTime", "Haas Delay Time", NormalisableRange<float>(0.0f, 50.0f,0.1f), 0.0f),
                            })
 #endif
 {
     wideningFactor = parameters.getRawParameterValue("wideningFactor");
-    wideningGain = parameters.getRawParameterValue("wideningGain");
+    wideningDrive = parameters.getRawParameterValue("wideningDrive");
     haasDelayTime = parameters.getRawParameterValue("haasDelayTime");
 }
 
@@ -160,7 +160,7 @@ void BarnDoorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
 
     // widening
     widen.setWideningFactor(wideningFactor->load());
-    widen.setWideningGain(wideningGain->load());
+    widen.setWideningGain(wideningDrive->load());
     widen.processBlock(buffer);
 
     //store to atomics that the PolarPlot will load.

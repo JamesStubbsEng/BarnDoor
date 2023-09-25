@@ -66,7 +66,7 @@ private:
     AudioProcessorValueTreeState parameters;
 
     std::atomic<float>* wideningFactor = nullptr;
-    std::atomic<float>* wideningGain = nullptr;
+    std::atomic<float>* wideningDrive = nullptr;
     std::atomic<float>* haasDelayTime = nullptr;
 
     std::atomic<float> leftChannelSample{ 0.f };

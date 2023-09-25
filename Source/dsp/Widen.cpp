@@ -43,8 +43,9 @@ void Widen::processBlock(juce::AudioBuffer<float>& buffer) noexcept
         for (size_t i = 0; i < numSamples; ++i)
         {
             // encode to MS
-            auto leftSample = buffer.getSample(0, i);
-            auto rightSample = buffer.getSample(1, i);
+            auto wideningDrive = Decibels::decibelsToGain(wideningGainSmoothed.getNextValue());
+            auto leftSample = buffer.getSample(0, i) * wideningDrive;
+            auto rightSample = buffer.getSample(1, i) * wideningDrive;
             auto mid = 0.5f * (leftSample + rightSample);
             auto side = 0.5f * (leftSample - rightSample);
 
@@ -53,10 +54,12 @@ void Widen::processBlock(juce::AudioBuffer<float>& buffer) noexcept
             mid = (2 - wideningFactor) * mid;
             side = wideningFactor * side;
 
-            // decode back to LR and apply gain
-            auto wideningGain = Decibels::decibelsToGain(wideningGainSmoothed.getNextValue());
-            buffer.setSample(0, i, wideningGain * (mid + side));
-            buffer.setSample(1, i, wideningGain * (mid - side));
+            //experimental tanh waveshaping of side channel
+            side = shaper.processSample(side);
+
+            // decode back to LR
+            buffer.setSample(0, i, (mid + side) / wideningDrive);
+            buffer.setSample(1, i, (mid - side) / wideningDrive);
         }
     }
 }

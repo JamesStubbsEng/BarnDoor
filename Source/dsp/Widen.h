@@ -22,5 +22,6 @@ public:
 private:
     juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> wideningFactorSmoothed;
     juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> wideningGainSmoothed;
+    dsp::WaveShaper<float> shaper{ dsp::FastMathApproximations::tanh };
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Widen)
 };

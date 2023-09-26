@@ -49,13 +49,13 @@ void Widen::processBlock(juce::AudioBuffer<float>& buffer) noexcept
             auto mid = 0.5f * (leftSample + rightSample);
             auto side = 0.5f * (leftSample - rightSample);
 
+            //experimental tanh waveshaping of side channel
+            side = shaper.processSample(side);
+
             // apply widening factor
             auto wideningFactor = wideningFactorSmoothed.getNextValue();
             mid = (2 - wideningFactor) * mid;
             side = wideningFactor * side;
-
-            //experimental tanh waveshaping of side channel
-            side = shaper.processSample(side);
 
             // decode back to LR
             buffer.setSample(0, i, (mid + side) / wideningDrive);

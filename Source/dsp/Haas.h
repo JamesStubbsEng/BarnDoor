@@ -17,11 +17,13 @@ public:
     Haas() = default;
     void setDelayTime(float val);
     void setColorDriveDb(float val);
-    void prepare(float sampleRate, int32 maximumBlockSize, int32 numberOfChannels, float delayTimeMs, float colorDriveDb) noexcept;
+    void setBalanceDb(float val);
+    void prepare(float sampleRate, int32 maximumBlockSize, int32 numberOfChannels, float delayTimeMs, float colorDriveDb, float balanceDb) noexcept;
     void processBlock(juce::AudioBuffer<float>& buffer) noexcept;
 private:
     juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> delayTimeSmoothedMs;
     juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> colorDriveSmoothedDb;
+    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> balanceSmoothedDb;
     juce::dsp::DelayLine<float> delayLine;
     float sampleRate = 44100.f;
     dsp::WaveShaper<float> shaper{ dsp::FastMathApproximations::tanh };

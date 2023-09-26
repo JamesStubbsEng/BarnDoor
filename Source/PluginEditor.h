@@ -52,5 +52,9 @@ private:
     Label haasColorLabel;
     std::unique_ptr<SliderAttachment> haasColorSliderAttachment;
 
+    Slider haasBalanceSlider;
+    Label haasBalanceLabel;
+    std::unique_ptr<SliderAttachment> haasBalanceSliderAttachment;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BarnDoorAudioProcessorEditor)
 };

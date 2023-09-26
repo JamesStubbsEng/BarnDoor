@@ -52,6 +52,15 @@ BarnDoorAudioProcessorEditor::BarnDoorAudioProcessorEditor (BarnDoorAudioProcess
     addAndMakeVisible(haasColorSlider);
     haasColorSliderAttachment.reset(new SliderAttachment(valueTreeState, "haasColor", haasColorSlider));
 
+    haasBalanceSlider.setSliderStyle(juce::Slider::Rotary);
+    haasBalanceSlider.setScrollWheelEnabled(false);
+    haasBalanceSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
+    haasBalanceSlider.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
+    haasBalanceLabel.setText("Haas Balance", NotificationType::dontSendNotification);
+    haasBalanceLabel.attachToComponent(&haasBalanceSlider, false);
+    addAndMakeVisible(haasBalanceSlider);
+    haasBalanceSliderAttachment.reset(new SliderAttachment(valueTreeState, "haasBalance", haasBalanceSlider));
+
     setSize(700, 520);
 }
 
@@ -75,12 +84,13 @@ void BarnDoorAudioProcessorEditor::resized()
     polarPlotArea.translate((availableArea.getWidth() - polarPlotWidthAndHeight) / 2, 0);
     polarPlot.setBounds(polarPlotArea);
     
-    auto sliderWidth = availableArea.getWidth() /2;
+    auto sliderWidth = availableArea.getWidth() /3;
     auto sliderHeight = availableArea.getHeight() / 2;
 
     auto firstRow = availableArea.removeFromTop(sliderHeight);
     haasDelaySlider.setBounds(firstRow.removeFromLeft(sliderWidth).reduced(30));
     haasColorSlider.setBounds(firstRow.removeFromLeft(sliderWidth).reduced(30));
+    haasBalanceSlider.setBounds(firstRow.removeFromLeft(sliderWidth).reduced(30));
 
     auto secondRow = availableArea.removeFromTop(sliderHeight);
     wideningDriveSlider.setBounds(secondRow.removeFromLeft(sliderWidth).reduced(30));

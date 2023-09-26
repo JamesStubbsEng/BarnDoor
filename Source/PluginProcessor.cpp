@@ -25,6 +25,7 @@ BarnDoorAudioProcessor::BarnDoorAudioProcessor()
                                std::make_unique<AudioParameterFloat>("wideningDrive", "Widening Drive", NormalisableRange<float>(-20.0f, 30.0f,0.1f), 0.0f),
                                std::make_unique<AudioParameterFloat>("haasDelayTime", "Haas Delay Time", NormalisableRange<float>(0.0f, 50.0f,0.1f), 0.0f),
                                std::make_unique<AudioParameterFloat>("haasColor", "Haas Color", NormalisableRange<float>(-20.0f, 30.0f,0.1f), 0.0f),
+                               std::make_unique<AudioParameterFloat>("haasBalance", "Haas Balance", NormalisableRange<float>(-30.0f, 30.0f,0.1f), 0.0f),
                            })
 #endif
 {
@@ -32,6 +33,7 @@ BarnDoorAudioProcessor::BarnDoorAudioProcessor()
     wideningDrive = parameters.getRawParameterValue("wideningDrive");
     haasDelayTime = parameters.getRawParameterValue("haasDelayTime");
     haasColor = parameters.getRawParameterValue("haasColor");
+    haasBalance = parameters.getRawParameterValue("haasBalance");
 }
 
 BarnDoorAudioProcessor::~BarnDoorAudioProcessor()
@@ -104,7 +106,7 @@ void BarnDoorAudioProcessor::changeProgramName (int index, const juce::String& n
 void BarnDoorAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     widen.prepare(sampleRate, wideningFactor->load(), wideningDrive->load());
-    haas.prepare(sampleRate, samplesPerBlock, getNumOutputChannels(), haasDelayTime->load(), haasColor->load());
+    haas.prepare(sampleRate, samplesPerBlock, getNumOutputChannels(), haasDelayTime->load(), haasColor->load(), haasBalance->load());
 }
 
 void BarnDoorAudioProcessor::releaseResources()
@@ -159,6 +161,7 @@ void BarnDoorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     // haas
     haas.setDelayTime(haasDelayTime->load());
     haas.setColorDriveDb(haasColor->load());
+    haas.setBalanceDb(haasBalance->load());
     haas.processBlock(buffer);
 
     // widening

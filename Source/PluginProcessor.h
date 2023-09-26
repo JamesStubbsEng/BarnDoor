@@ -68,6 +68,7 @@ private:
     std::atomic<float>* wideningFactor = nullptr;
     std::atomic<float>* wideningDrive = nullptr;
     std::atomic<float>* haasDelayTime = nullptr;
+    std::atomic<float>* haasColor = nullptr;
 
     std::atomic<float> leftChannelSample{ 0.f };
     std::atomic<float> rightChannelSample{ 0.f };

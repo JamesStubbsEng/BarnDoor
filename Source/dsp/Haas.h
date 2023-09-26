@@ -16,11 +16,14 @@ class Haas {
 public:
     Haas() = default;
     void setDelayTime(float val);
-    void prepare(float sampleRate, int32 maximumBlockSize, int32 numberOfChannels, float delayTimeMs) noexcept;
+    void setColorDriveDb(float val);
+    void prepare(float sampleRate, int32 maximumBlockSize, int32 numberOfChannels, float delayTimeMs, float colorDriveDb) noexcept;
     void processBlock(juce::AudioBuffer<float>& buffer) noexcept;
 private:
     juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> delayTimeSmoothedMs;
+    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> colorDriveSmoothedDb;
     juce::dsp::DelayLine<float> delayLine;
     float sampleRate = 44100.f;
+    dsp::WaveShaper<float> shaper{ dsp::FastMathApproximations::tanh };
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Haas)
 };

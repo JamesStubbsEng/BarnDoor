@@ -43,6 +43,15 @@ BarnDoorAudioProcessorEditor::BarnDoorAudioProcessorEditor (BarnDoorAudioProcess
     addAndMakeVisible(haasDelaySlider);
     haasDelaySliderAttachment.reset(new SliderAttachment(valueTreeState, "haasDelayTime", haasDelaySlider));
 
+    haasColorSlider.setSliderStyle(juce::Slider::Rotary);
+    haasColorSlider.setScrollWheelEnabled(false);
+    haasColorSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
+    haasColorSlider.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
+    haasColorLabel.setText("Haas Color", NotificationType::dontSendNotification);
+    haasColorLabel.attachToComponent(&haasColorSlider, false);
+    addAndMakeVisible(haasColorSlider);
+    haasColorSliderAttachment.reset(new SliderAttachment(valueTreeState, "haasColor", haasColorSlider));
+
     setSize(700, 520);
 }
 
@@ -71,6 +80,7 @@ void BarnDoorAudioProcessorEditor::resized()
 
     auto firstRow = availableArea.removeFromTop(sliderHeight);
     haasDelaySlider.setBounds(firstRow.removeFromLeft(sliderWidth).reduced(30));
+    haasColorSlider.setBounds(firstRow.removeFromLeft(sliderWidth).reduced(30));
 
     auto secondRow = availableArea.removeFromTop(sliderHeight);
     wideningDriveSlider.setBounds(secondRow.removeFromLeft(sliderWidth).reduced(30));

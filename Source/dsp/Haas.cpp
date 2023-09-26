@@ -15,10 +15,18 @@ void Haas::setDelayTime(float val)
     delayTimeSmoothedMs.setTargetValue(val);
 }
 
-void Haas::prepare(float sampleRate, int32 maximumBlockSize, int32 numberOfChannels, float delayTimeMs) noexcept
+void Haas::setColorDriveDb(float val)
+{
+    colorDriveSmoothedDb.setTargetValue(val);
+}
+
+void Haas::prepare(float sampleRate, int32 maximumBlockSize, int32 numberOfChannels, float delayTimeMs, float colorDriveDb) noexcept
 {
     delayTimeSmoothedMs.setCurrentAndTargetValue(delayTimeMs);
     delayTimeSmoothedMs.reset(sampleRate, 0.05);
+
+    colorDriveSmoothedDb.setCurrentAndTargetValue(colorDriveDb);
+    colorDriveSmoothedDb.reset(sampleRate, 0.05);
 
     juce::dsp::ProcessSpec spec;
     spec.maximumBlockSize = maximumBlockSize;
@@ -47,9 +55,14 @@ void Haas::processBlock(juce::AudioBuffer<float>& buffer) noexcept
         for (size_t i = 0; i < numSamples; ++i)
         {
             auto smoothedDelayTimeSamples = 0.001f * delayTimeSmoothedMs.getNextValue() * sampleRate;
+            auto smoothedColorDrive = Decibels::decibelsToGain(colorDriveSmoothedDb.getNextValue());
 
             delayLine.pushSample(1, buffer.getSample(1, i));
             auto delayedSample = delayLine.popSample(1, smoothedDelayTimeSamples);
+
+            //tanh waveshaping of right channel
+            delayedSample = shaper.processSample(delayedSample * smoothedColorDrive) / smoothedColorDrive;
+
             buffer.setSample(1, i, delayedSample);
         }
     }

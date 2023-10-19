@@ -16,6 +16,10 @@
       <FILE id="fexsDf" name="Widen.h" compile="0" resource="0" file="Source/dsp/Widen.h"/>
       <FILE id="JZuoG2" name="Widen.cpp" compile="1" resource="0" file="Source/dsp/Widen.cpp"/>
     </GROUP>
+    <GROUP id="{EE0EE4EA-D1AA-0AE4-EC52-C299EC02F0A5}" name="Resources">
+      <FILE id="ptK3Eb" name="P042 - Small Ambience.wav" compile="0" resource="1"
+            file="Resources/P042 - Small Ambience.wav"/>
+    </GROUP>
     <GROUP id="{5EE6E821-2D5D-5FB4-3017-81C17B42AECD}" name="Source">
       <FILE id="anLBRY" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>

@@ -23,6 +23,7 @@ BarnDoorAudioProcessor::BarnDoorAudioProcessor()
                            {
                                std::make_unique<AudioParameterFloat>("wideningFactor", "Widening Factor", NormalisableRange<float>(0.0f, 2.0f,0.01f), 1.0f),
                                std::make_unique<AudioParameterFloat>("wideningDrive", "Widening Drive", NormalisableRange<float>(-20.0f, 30.0f,0.1f), 0.0f),
+                               std::make_unique<AudioParameterFloat>("wideningSpace", "Widening Space", NormalisableRange<float>(0.0f, 1.0f,0.01f), 0.0f),
                                std::make_unique<AudioParameterFloat>("haasDelayTime", "Haas Delay Time", NormalisableRange<float>(0.0f, 50.0f,0.1f), 0.0f),
                                std::make_unique<AudioParameterFloat>("haasColor", "Haas Color", NormalisableRange<float>(-20.0f, 30.0f,0.1f), 0.0f),
                                std::make_unique<AudioParameterFloat>("haasBalance", "Haas Balance", NormalisableRange<float>(-30.0f, 30.0f,0.1f), 0.0f),
@@ -31,6 +32,7 @@ BarnDoorAudioProcessor::BarnDoorAudioProcessor()
 {
     wideningFactor = parameters.getRawParameterValue("wideningFactor");
     wideningDrive = parameters.getRawParameterValue("wideningDrive");
+    wideningSpace = parameters.getRawParameterValue("wideningSpace");
     haasDelayTime = parameters.getRawParameterValue("haasDelayTime");
     haasColor = parameters.getRawParameterValue("haasColor");
     haasBalance = parameters.getRawParameterValue("haasBalance");
@@ -105,7 +107,7 @@ void BarnDoorAudioProcessor::changeProgramName (int index, const juce::String& n
 //==============================================================================
 void BarnDoorAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    widen.prepare(sampleRate, wideningFactor->load(), wideningDrive->load());
+    widen.prepare(sampleRate, samplesPerBlock, getNumOutputChannels(), wideningFactor->load(), wideningDrive->load(), wideningSpace->load());
     haas.prepare(sampleRate, samplesPerBlock, getNumOutputChannels(), haasDelayTime->load(), haasColor->load(), haasBalance->load());
 }
 
@@ -167,6 +169,7 @@ void BarnDoorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     // widening
     widen.setWideningFactor(wideningFactor->load());
     widen.setWideningGain(wideningDrive->load());
+    widen.setWideningSpaceWet(wideningSpace->load());
     widen.processBlock(buffer);
 
     //store to atomics that the PolarPlot will load.

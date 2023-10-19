@@ -33,6 +33,15 @@ BarnDoorAudioProcessorEditor::BarnDoorAudioProcessorEditor (BarnDoorAudioProcess
     addAndMakeVisible(wideningDriveSlider);
     wideningDriveSliderAttachment.reset(new SliderAttachment(valueTreeState, "wideningDrive", wideningDriveSlider));
 
+    wideningSpaceSlider.setSliderStyle(juce::Slider::Rotary);
+    wideningSpaceSlider.setScrollWheelEnabled(false);
+    wideningSpaceSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
+    wideningSpaceSlider.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
+    wideningSpaceLabel.setText("Widening Space", NotificationType::dontSendNotification);
+    wideningSpaceLabel.attachToComponent(&wideningSpaceSlider, false);
+    addAndMakeVisible(wideningSpaceSlider);
+    wideningSpaceSliderAttachment.reset(new SliderAttachment(valueTreeState, "wideningSpace", wideningSpaceSlider));
+
 
     haasDelaySlider.setSliderStyle(juce::Slider::Rotary);
     haasDelaySlider.setScrollWheelEnabled(false);
@@ -95,4 +104,5 @@ void BarnDoorAudioProcessorEditor::resized()
     auto secondRow = availableArea.removeFromTop(sliderHeight);
     wideningDriveSlider.setBounds(secondRow.removeFromLeft(sliderWidth).reduced(30));
     wideningFactorSlider.setBounds(secondRow.removeFromLeft(sliderWidth).reduced(30));  
+    wideningSpaceSlider.setBounds(secondRow.removeFromLeft(sliderWidth).reduced(30));  
 }
